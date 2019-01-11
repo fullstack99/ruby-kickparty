@@ -1,0 +1,123 @@
+<%= form_tag("/events", method: "post", novalidate: "novalidate", multipart: true, id: "event-form") do %>
+  <%= hidden_field_tag "slug", @event["slug"] %>
+  <%= hidden_field_tag "locationAddress", @event["locationAddress"] %>
+  <%= hidden_field_tag "locationLat", @event["locationLat"] %>
+  <%= hidden_field_tag "locationLng", @event["locationLng"] %>
+  <%= hidden_field_tag "locationName", @event["locationName"] %>
+  <%= hidden_field_tag "locationCity", @event["locationCity"] %>
+  <%= hidden_field_tag "locationState", @event["locationState"] %>
+  <%= hidden_field_tag "locationCountry", @event["locationCountry"] %>
+
+  <div class="form-group">
+    <label for="name" class="main-label">Event Name</label>
+    <%= text_field_tag "name", @event["name"], placeholder: "Event Name", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <label class="main-label" for="eventTypeId">Event Type</label>
+    <%= select_tag("eventTypeId", options_for_select([
+      ['Wedding', 1],
+      ['Concert', 2],
+      ['Bachelorette Party', 3],
+      ['Bachelor Party', 4],
+      ['Reunion', 5],
+      ['Engagement Party', 6],
+      ['Birthday Party', 7],
+      ['Holiday Party', 8],
+      ['Other', 9]
+    ], selected: @event["eventTypeId"] ), prompt: "Please select an event type") %>
+  </div>
+
+  <div class="form-group">
+    <label for="description" class="main-label">Description</label>
+    <%= text_area_tag "description", @event["description"], class: "form-control", placeholder: "Describe this event", rows: "6" %>
+  </div>
+
+  <div class="form-group">
+    <label class="main-label" for="status">What kind of event is this</label>
+    <label class="radio-inline">
+      <%= radio_button_tag 'status', '1', (@event["status"] == 1) %> Private
+    </label>
+    <label class="radio-inline">
+      <%= radio_button_tag 'status', '2', (@event["status"] == 2) %> Public
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="main-label" for="header-image">
+      Add an image <span class="optional" style="color: orange">(optional)</span>
+    </label>
+    <%= file_field_tag "headerImg", accept: 'image/png,image/gif,image/jpeg,image/jpg' %>
+    <div id="img-preview"></div>
+  </div>
+
+  <div class="form-group">
+    <label class="main-label" for="">Where will it happen</label>
+    <%= text_field_tag "location", @location, placeholder: "Search Box", class: "controls", id: "pac-input" %>
+    <div id="map"></div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+     <div class="col-md-4">
+        <label class="main-label" for="">When will it start</label>
+        <%= date_field_tag 'startDate', @startDate, class: "form-control" %>
+        <%= time_field_tag "startTime", @startTime, class: "form-control" %>
+      </div>
+
+      <div class="col-md-4">
+        <label class="main-label" for="">When will it end <span class="optional" style="color: orange">(optional)</span></label>
+        <%= date_field_tag 'endDate', @endDate, class: "form-control" %>
+        <%= time_field_tag "endTime", @endTime, class: "form-control" %>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="main-label" for="deadline">Funding deadline</label>
+          <%= date_field_tag 'deadline', @deadline, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="main-label" for="name">How many people do you want to attend?</label>
+    <div class="row">
+      <div class="col-md-6">
+        <%= number_field_tag "attendeeCount", @tier["minAttendeeCount"], class: "form-control", placeholder: "Minimum attendance", min: 0 %>
+      </div>
+
+      <div class="col-md-6">
+        <%= number_field_tag "maxAttendeeCount", @tier["maxAttendeeCount"], class: "form-control", placeholder: "Maximum attendance", min: 0 %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="main-label" for="name">How much would you like to contribute? <span class="optional" style="color: orange">(optional)</span></label>
+    <%= number_field_tag "contribution", @tier["contribution"], class: "form-control", placeholder: "Contribution Amount ($)" %>
+    <%= text_area_tag "contributionNote", @tier["contributionNote"], class: "form-control", placeholder: "Contribution note", rows: "6" %>
+  </div>
+
+  <div class="form-group">
+    <label class="main-label" for="">Your Contact Info <span class="optional" style="color: orange">(optional)</span></label>
+    <div class="row">
+      <div class="col-md-6">
+        <%= telephone_field_tag "contactPhone", @event["contactPhone"], placeholder: "Phone number", class: "form-control" %>
+      </div>
+      <div class="col-md-6">
+        <%= email_field_tag "contactEmail", @event["contactEmail"], placeholder: "Email", class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group errors" id="error-reporter">
+    <h3>Form Errors<h3>
+    <div id="errors"></div>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-theme-dark" type="submit">Save</button>
+    <button class="btn btn-default eventForm-cancel" type="reset">Cancel</button>
+  </div>
+<% end %>

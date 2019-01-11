@@ -1,0 +1,18 @@
+<main class="container event-form resources-form">
+    <script>
+      <% if @location %>
+        var eventLocation = {
+          locationName: '<%= @event["locationName"] %>',
+          locationAddress: '<%= @event["locationAddress"] %>',
+          locationLat: '<%= @event["locationLat"] %>',
+          locationLng: '<%= @event["locationLng"] %>',
+          locationCity: '<%= @event["locationCity"] %>',
+          locationState: '<%= @event["locationState"] %>',
+          locationCountry: '<%= @event["locationCountry"] %>'
+        }
+      <% end %>
+      var isEditing = true
+    </script>
+
+  <%= render "eventForm" %>
+</main>

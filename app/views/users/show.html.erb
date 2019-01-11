@@ -1,0 +1,43 @@
+
+<div class="row" style="margin: 30px 0 30px 0;">
+  <div class='col-md-2'>
+    <img src="<%= @user['profileImg'] %>">
+  </div>
+  <div class='col-md-10'>
+    <h1><%= @user['firstName'] + " " + @user['lastName'] %></h1>
+    <% if @user['me'] %>
+      <div><%= @user['email'] %></div>
+      <div><%= @user['mobileNumber'] %></div>
+    <% end %>
+  </div>
+</div>
+
+<h2>Created Events</h2>
+
+<% @user['createdEvents'].each_slice(3) do |evs| %>
+  <div class="row">
+    <% evs.each do |ev| %>
+      <div class='col-sm-4 col-md-4 margin30 events-list-item'>
+        <a href=<%= '/events/' + ev['slug'] %>>
+          <img src=<%= ev['headerImg'] %>>
+          <h6><%= ev['name'] %></h6>
+        </a>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<h2>Attending Events</h2>
+<% @user['attendingEvents'].each_slice(3) do |evs| %>
+  <div class="row">
+    <% evs.each do |ev| %>
+      <div class='col-sm-4 col-md-4 margin30 events-list-item'>
+        <a href=<%= '/events/' + ev['slug'] %>>
+          <img src=<%= ev['headerImg'] %>>
+          <h6><%= ev['name'] %></h6>
+        </a>
+      </div>
+    <% end %>
+  </div>
+<% end -%>
+ 

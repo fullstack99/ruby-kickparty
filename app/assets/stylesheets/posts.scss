@@ -1,0 +1,54 @@
+.posts {
+  .btn.post {
+    float: right;
+    height: 50px;
+    width: 70px;
+  }
+
+  .post-wrapper {
+    margin-right: 82px;
+  }
+
+  .post-comment {
+    box-sizing: border-box;
+    height: 50px;
+    padding: 5px 12px;
+    width: 100%;
+  }
+}
+
+ul#event-posts {
+  list-style-type:none;
+  padding-left:0;
+
+  li.post {
+    background-color:rgba(255, 255, 255, .8);
+    margin-bottom: 10px;
+    padding:5px;
+
+    .profile-image {
+      background-size: 100%;
+      border-radius: 50px;
+      border: 2px solid #CCC;
+      float: left;
+      height: 50px;
+      margin-left: 5px;
+      margin-top: 5px;
+      width: 50px;
+    }
+
+    .initials {
+      color:white;
+      font-size:1em;
+      font-weight:300;
+      height:50px;
+      line-height:50px;
+      text-align:center;
+      text-transform:uppercase;
+    }
+
+    .post-text {
+      margin-left: 65px;
+    }
+  }
+}

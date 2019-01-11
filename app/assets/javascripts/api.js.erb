@@ -1,0 +1,109 @@
+/* global _ fetch :true */
+/* exceptions Api */
+
+var rootUrl = '<%= Rails.application.config.api_url %>'
+// var rootUrl = 'https://testapi.kickparty.com/api'
+// var rootUrl = 'http://localhost:3001/api'
+
+console.log('JS API URL: ' + rootUrl)
+
+function errorMessage (json) {
+  if (json.errors) {
+    var message = _.map(json.errors, function (errorText, property){
+      return property + ' ' + errorText
+    })
+
+    return message.join('\n')
+  }
+
+  return 'There was an error with this request.'
+}
+
+var Api = {
+  getToken () {
+    // http://www.the-art-of-web.com/javascript/getcookie/
+    function getCookie(name) {
+      var re = new RegExp(name + "=([^;]+)");
+      var value = re.exec(document.cookie);
+      return (value != null) ? unescape(value[1]) : null;
+    }
+    return getCookie("auth_token")
+    // return window.localStorage.getItem('JWT')
+  },
+
+  headers () {
+    return {
+      'Authorization': this.getToken(),
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  },
+  request (url, options) {
+    return new Promise( function (resolve, reject) {
+      return fetch(url, options)
+        .then( function (response) {
+          if (!response.ok) {
+            return response.json().then( function (json) {
+              reject(errorMessage(json))
+            } )
+          }
+
+          return response.json()
+            .then( function (json) {
+              return resolve(json)
+            })
+        })
+    })
+  },
+  get (url) {
+    var options = {
+      headers: this.headers(),
+      mode: 'cors'
+    }
+
+    return this.request(rootUrl + url, options)
+  },
+  post (url, data) {
+    var options = {
+      headers: this.headers(),
+      method: 'post',
+      body: JSON.stringify(data),
+      mode: 'cors'
+    }
+
+    return this.request(rootUrl + url, options)
+  },
+  delete (url, data) {
+    var options = {
+      headers: this.headers(),
+      method: 'delete',
+      mode: 'cors'
+    }
+
+    if (data) {
+      options.body = JSON.stringify(data)
+    }
+
+    return this.request(rootUrl + url, options)
+  },
+  postURL (url, data) {
+    var options = {
+      headers: this.headers(),
+      method: 'post',
+      body: JSON.stringify(data),
+      mode: 'cors'
+    }
+
+    return this.request(url, options)
+  },
+  postToController (url, data) {
+    var options = {
+      headers: this.headers(),
+      method: 'post',
+      body: JSON.stringify(data),
+      mode: 'cors'
+    }
+
+    fetch(url, options)
+  }
+}

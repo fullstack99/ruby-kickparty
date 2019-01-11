@@ -1,0 +1,33 @@
+.counters {
+  .card-box {
+    color: #4a4a4a;
+    border: 2px solid #E9E9E9;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    height: 100px;
+    padding-top: 30px;
+    text-transform: uppercase;
+    text-align: center;
+
+    .split {
+      margin-right: 5px;
+    }
+
+    .countdown {
+      margin-right: 2px;
+      color: rgb(74, 74, 74);
+      display: block;
+
+      &.number {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      &.text {
+        font-size: 13px;
+        font-weight: 400;
+      }
+    }
+  }
+}

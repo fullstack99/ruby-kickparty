@@ -1,0 +1,66 @@
+<h4>Edit Your Profile</h4>
+<h4><%= @user['slug'] %></h4>
+<img src=<%= @user['profileImg'] %>>
+
+<form name="editForm" onsubmit="submitInfo(event)">
+  <div>
+    <label>First Name</label>
+    <br>
+    <input name="firstName" placeHolder="Enter your first name"></input>
+  </div>
+  <div>
+	  <label>Last Name</label>
+    <br>
+	  <input name="lastName" placeHolder="Enter your last name"></input>
+  </div>
+  <div>
+	  <label>Profile Name</label>
+    <br>
+	  <input name="profileName" placeHolder="Enter your profile name"></input>
+  </div>
+  <div>
+	  <label>Email</label>
+    <br>
+	  <input name="email" placeHolder="Enter your email address"></input>
+  </div>
+  <div>
+	  <label>Phone</label>
+    <br>
+	  <input name="phone" placeHolder="Enter your mobile phone"></input>
+  </div>
+  <br>
+  <button type="submit">Update Profile</button>
+</form>
+
+<script>
+function submitInfo (e) {
+  e.preventDefault();
+  var form = document.forms["editForm"];
+
+  if (!form.firstName.value || form.firstName.value == '') {
+    alert("Please enter your first name.");
+  }
+
+  if (!form.lastName.value || form.lastName.value == '') {
+    alert("Please enter your last name.");
+  }
+
+  if (!form.profileName.value || form.profileName.value == '') {
+    alert("Please enter your profile name.");
+  }
+
+  if (!form.email.value || form.email.value == '') {
+    alert("Please enter your email.");
+  }
+
+  if (!form.phone.value || form.phone.value == '') {
+    alert("Please enter your phone number.");
+  }
+
+  $.post("/<%= @user['slug'] %>/edit", {foo: "bar"}).done( function(data, status) {
+    console.log("Returned");
+  }).fail (function(xhr, textStatus, errorThrown) {
+    console.log("Error");
+  });
+}
+</script>

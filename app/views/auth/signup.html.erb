@@ -1,0 +1,76 @@
+<main>
+  <header>
+    <h1>Sign up</h1>
+    <p>
+      It's free and takes seconds
+    </p>
+  </header>
+
+<%= render "facebook" %>
+
+  <div style="padding-top: 20px;">
+    <em>or</em> make a KickParty login
+  </div>
+
+  <%= form_tag('/signup', method: "post", multipart: true) do %>
+
+    <div class="form-group">
+      <label for="profile-image">
+        Add a profile image <span class="optional" style="color: orange">(optional)</span>
+      </label>
+      <%= file_field_tag "user[profile_img]", accept: 'image/png,image/gif,image/jpeg, image/jpg', id: 'profile-image' %>
+    </div>
+
+    <div class='form-group'>
+      <label for='first-name'>First name</label>
+      <input id='first-name' type='text' class='form-control' placeholder='First name' name='user[first_name]' value="<%= @user ? @user[:first_name] : '' %>" required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='last-name'>Last name</label>
+      <input id='last-name' type='text' class='form-control' placeholder='Last name' name='user[last_name]' value="<%= @user ? @user[:last_name] : '' %>" required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='username'>Username</label>
+      <input id='username' type='text' class='form-control' placeholder='Choose a username' name='user[slug]' value="<%= @user ? @user[:slug] : '' %>" required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='email'>Email</label>
+      <input id='email' type='email' class='form-control' placeholder='Email' name='user[email]' value="<%= @user ? @user[:email] : '' %>" required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='mobile-number'>Mobile number</label>
+      <input id='mobile-number' type='tel' class='form-control' placeholder='Mobile number' name='user[mobile_number]' value="<%= @user ? @user[:mobile_number] : '' %>" required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='password'>Password</label>
+      <input id='password' type='password' class='form-control' placeholder='Password' name='user[password]' required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='confirm-password'>Confirm password</label>
+      <input id='confirm-password' type='password' class='form-control' placeholder='Confirm password' name='user[password_confirmation]' required/>
+    </div>
+
+    <div class='validation'></div>
+
+    <%= hidden_field(nil, :next, value: @next) %>
+    <button id='signup-btn' type='submit' class='btn btn-primary'>
+      Continue
+    </button>
+
+  <% end %> <!-- form_tag -->
+
+  <a href="/" style="display: block">
+    Cancel
+  </a>
+
+  <p>
+    You already have an account? <a href="/signin">Sign in here.</a>
+  </p>
+
+</main>

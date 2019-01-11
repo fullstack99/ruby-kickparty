@@ -1,0 +1,22 @@
+.has-error input {
+  border-width: 2px;
+}
+
+.validation {
+  font-size: 2rem;
+  margin: 1.5rem 0;
+}
+
+.validation.form-error:after {
+  content: 'Please check form fields';
+  color: red;
+}
+
+.validation.form-success:after {
+  content: 'Payment information saved';
+  color: $dark-green;
+}
+
+.validation.form-saving:after {
+  content: 'Saving...'
+}

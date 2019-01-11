@@ -1,0 +1,35 @@
+<section class="side-section container">
+  <% unless @event['attending'] %>
+    <div>
+        <a class="btn action-button green" href="/events/<%= @id %>/attend/">Attend this event</a>
+    </div>
+
+    <div class="action-button-subtext">
+      <% if @tier['baseCostPerAttendee'] == 0 %>
+        This is a FREE event
+      <% else %>
+        Your requested contribution is <%= number_to_currency(@tier['baseCostPerAttendee'])%>
+      <% end %>
+    </div>
+  <% else %>
+
+    <div>
+    <% if @event["me"] %>
+      <div class="btn action-button green" data-toggle="modal" data-target="#modal-message">Message Guests</div>
+    <% else %>
+      <div class="btn action-button purple">You are attending!</div>
+    <% end %>
+    </div>
+
+    <% if !@event["me"] %>
+      <div class="action-button-subtext">Need to cancel?  Click here.</div>
+    <% end %>
+  <% end %>
+
+  <% if @event["me"] %>
+    <div style="padding-top: 10px;">
+      <a class="btn edit-event" href="/events/<%= @id %>/edit">Edit Event</a>
+      <button class="btn btn-danger delete-event" style="background-color: #d9534f; border-color: #d43f3a;">Delete Event</button>
+    </div>
+  <% end %>
+</section>

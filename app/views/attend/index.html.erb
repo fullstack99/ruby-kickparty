@@ -1,0 +1,76 @@
+<main class="container">
+  <h1>Let's go to <%= @event['name'] %></h1>
+  <p>
+    Almost there! Please review the info below and then we're good
+    <i class='fa fa-smile-o'></i>
+  </p>
+
+<%= form_tag(@submit, method: "post") do %>
+  <!-- Payment method selection -->
+  <section>
+    <h2>Credit Card</h2>
+    <div class="form-group">
+      <label for="payment_id">Select a credit card</label>
+      <%= select_tag(:payment_id, options_for_select(@payment_options), class: "form-control")%>
+    </div>
+    <!-- add query later -->
+    <a href="/payment">Add a new card</a>
+  </section>
+
+  <!-- Contribution form -->
+  <section>
+    <h2>Contribution</h2>
+    <dl>
+      <dt>Event cost</dt>
+      <dd id="event-cost">
+        <% if @baseCost != 0 %>
+          $<%= @baseCost %>
+        <% else %>
+          Free!
+        <% end %>
+      </dd>
+
+      <dt>Add a Gift/Contribution?</dt>
+      <dd>
+        <input type="text" id="contribution-input" name="contribution" placeholder="$0.00">
+      </dd>
+
+      <dt>5% Processing Fee</dt>      
+      <dd id="processing-fee">
+        $<%= @processingFee %>
+      </dd>
+
+      <dt>Total</dt>      
+      <dd id="total-price">
+        $<%= @totalPrice %>
+      </dd>
+    </dl>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea class="form-control" name="note" placeholder="Send a message to the hosts!" rows="5"></textarea>
+    </div>
+
+    <div class="checkbox">
+      <label><input type="checkbox" name="post_to_event_page">Post this message to the event page</label>
+    </div>
+  </section>
+
+  <!-- Confirmation -->
+  <section>
+    <h2>Ready to join us?</h2>
+    <p>
+      You will only be charged if the event kicks. All credit card processing is handled by Stripe, a secure and reliable third party payment system.
+    </p>
+    <button type="submit" id="attend-event-btn" class="btn btn-primary">
+      <% if @totalPrice != 0 %>
+        Yes, I agree to contribute $<%= @totalPrice %>
+      <% else %>      
+        Yes, I'd like to attend for free!
+      <% end %>
+    </button>
+    <a href="/events/<%= @event['slug'] %>" style="display: block">
+      No thanks, I'll just stay home
+    </a>
+  </section>
+<% end %> <!-- form_tag -->
+</main>

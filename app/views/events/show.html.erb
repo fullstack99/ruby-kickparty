@@ -1,0 +1,245 @@
+<main class="container event-details">
+    <script>
+        // adding global data points that JS needs
+        var slug = '<%= @id %>'
+    </script>
+
+  <!-- CONTENT WRAPPER -->
+  <div class="row">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-md-8">
+      <div class="hidden-md hidden-lg">
+        <%= render "attendControls" %>
+      </div>
+
+      <!-- Description -->
+      <section class="main-section container">
+        <article class="card-box full event-description" style="display:block; ">
+          <div class="show-more" id="event-description">
+            <%=@event['description'].html_safe%>
+          </div>
+        </article>
+      </section><!-- Description -->
+
+      <!-- Posts START -->
+      <section class="main-section container posts">
+        <h2 class="content-header">Leave us a message</h2>
+        <button class="btn btn-primary post" onclick="showCommentModal(event, <%= !current_user.nil? %>); submitPost();">Post</button>
+        <div class="post-wrapper">
+          <textarea class="post-comment" name="comment" id="post-body" onfocus="showCommentModal(event, <%= !current_user.nil? %>)"></textarea>
+          <div id="post-status" style=""></div>
+        </div>
+        <div>
+          <ul id="event-posts"></ul>
+          <div id="event-posts-loader"><span class="glyphicon glyphicon-refresh spinning"></span> Loading...</div>
+        </div>
+      </section>
+
+      <script>
+      function submitPost(body) {
+        var body = $('#post-body').val();
+        if (body.length === 0) {
+          $('#post-status').html("Gotta have something to post!")
+          return
+        }
+        var data = {
+          "post": {
+            "event_id": window.id,
+            "body": body
+          }
+        }
+        $('#post-status').show();
+        Api.post('/posts', data).then(function () {
+          $('#post-status').html("Post created successfully.")
+          $('#post-body').val("");
+          loadEventPosts(window.id);
+          setTimeout(function() {
+            $('#post-status').fadeOut('slow');
+          }, 5000);
+        }).catch(function (error) {
+          console.error('Error creating post', error);
+          $('#post-status').html("Error creating post.")
+        });
+      }
+      </script>
+      <!-- Posts END -->
+
+      <%
+      @tier = @event['tiers'][0]
+      if @tier.length > 0
+        tier_resources = @tier['resourceTypes']
+        if tier_resources.present?
+      %>
+      <section class="main-section container">
+        <h2 class="content-header">What's Included
+          <% if @event["me"] %><a style="text-transform: lowercase; font-weight: 300;" href="<%= "/events/#{@event['id']}/resources" %>">(Edit)</a><% end %>
+        </h2>
+
+        <div id="event-resources">
+          <% tier_resources.each do |rt| %>
+            <% rt['resources'].each do |r| %>
+              <% if r['name'] != 'Default' %>
+                <div class="resource-wrapper pull-left">
+                  <div class="resource-box">
+                    <h4>
+                      <span><%= number_to_currency(r['price'])%></span>
+                      <%=rt['name']%>
+                    </h4>
+                    <h3><%=r['name']%></h3>
+                    <% if r['description'].present? %>
+                      <p><%= truncate(r['description'], length: 100, omission: '...')%></p>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %><!-- end if -->
+            <% end %><!-- end each resource -->
+          <% end %><!-- end each tier_resource -->
+        </div>
+      </section>
+      <% end end %>
+    </div>
+    <!-- END LEFT COLUMN -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-md-4">
+      <!-- Attend Controls -->
+      <div class="hidden-xs hidden-sm">
+        <%= render "attendControls" %>
+      </div>
+
+      <!-- Attendees -->
+      <section class="side-section container">
+        <h2 class="content-header">Our Amazing Guests</h2>
+        <ul id="event-attendees" class="invitees"></ul>
+        <div id="event-attendees-loader" style="width:100%;height:300px;">
+          <span class="glyphicon glyphicon-refresh spinning"></span> Loading...
+        </div>
+      </section>
+      <!-- Attendees -->
+
+      <section class="side-section container">
+        <h2 class="content-header">Kick Progress</h2>
+
+        <div class="row">
+          <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+            <strong>Committed: <%= @event['committedCount'] %></strong>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+            <strong>Need: <%= @tier['minAttendeeCount'] %></strong>
+          </div>
+        </div>
+
+        <div class="progress-bar">
+          <div class="bar" style="width:<%= @progress %>%">
+            <span class="bar-label"><%= @progress %>%</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="side-section container">
+        <h2 class="content-header">Kick Countdown</h2>
+        <div class="counters row">
+          <div class='card-box col-md-3 col-sm-3 col-xs-3'>
+            <span class='countdown number' id="daysLeft"></span>
+            <span class='countdown text'>Days</span>
+          </div>
+          <div class='card-box col-md-3 col-sm-3 col-xs-3'>
+            <span class='countdown number' id="hoursLeft"></span>
+            <span class='countdown text'>Hours</span>
+          </div>
+          <div class='card-box col-md-3 col-sm-3 col-xs-3'>
+            <span class='countdown number' id="minutesLeft"></span>
+            <span class='countdown text'>Min</span>
+          </div>
+          <div class='card-box col-md-3 col-sm-3 col-xs-3'>
+            <span class='countdown number' id="secondsLeft"></span>
+            <span class='countdown text'>Sec</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="side-section container">
+        <h2 class="content-header">Where?</h2>
+        <%=@event['locationAddress']%><br/>
+        <iframe width="100%" height="300" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBCfiFHdbE6wZKKjdAP2o88DCiYZsifpsg&q=<%=u @event['locationAddress']%>}" allowfullscreen></iframe>
+      </section>
+
+    </div> <!-- RIGHT COLUMN -->
+  </div> <!-- CONTENT WRAPPER -->
+</main>
+<!-- Modal -->
+<div class="modal fade" id="modal-comment" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                We totally want to hear what you would like to say, but you have to login first. <a href="/signin?next=/events/<%=@event['slug']%>">Do it here</a>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="subject" class="main-label">Subject</label>
+                <input type="text" name="subject" id="message-subject" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="name" class="main-label">Message</label>
+                <textarea name="message" placeholder="Message to your guests..." id="message-body" class="form-control" required></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="message-send" class="btn btn-primary" disabled>
+                Send
+              </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  domReady(function () {
+    var ticker = null;
+    var endDate = null;
+    var daysLeftEl = document.getElementById('daysLeft')
+    var hoursLeftEl = document.getElementById('hoursLeft')
+    var minutesLeftEl = document.getElementById('minutesLeft')
+    var secondsLeftEl = document.getElementById('secondsLeft')
+
+    <% if @event['deadline']%>
+      endDate =  moment('<%=@event['deadline']%>');
+      ticker = setInterval(tick, 1000)
+    <% end %>
+
+    function tick() {
+      var now = moment().utc()
+      var daysLeft = endDate.diff(now, 'days')
+      var hoursLeft = endDate.diff(moment(now).add(daysLeft, 'days'), 'hours')
+      var minutesLeft = endDate.diff(moment(now).add(daysLeft, 'days').add(hoursLeft, 'hours'), 'minutes')
+      var secondsLeft = endDate.diff(moment(now).add(daysLeft, 'days').add(hoursLeft, 'hours').add(minutesLeft, 'minutes'), 'seconds')
+
+      if (daysLeft <= 0 && hoursLeft <= 0 && minutesLeft <= 0 && secondsLeft <= 0) {
+        daysLeft = 0
+        hoursLeft = 0
+        minutesLeft = 0
+        secondsLeft = 0
+        clearInterval(ticker)
+      }
+      daysLeftEl.textContent = daysLeft
+      hoursLeftEl.textContent = hoursLeft
+      minutesLeftEl.textContent = minutesLeft
+      secondsLeftEl.textContent = secondsLeft
+    }
+  });
+</script>

@@ -1,0 +1,30 @@
+.progress-bar {
+  $base-color: rgb(153,255,0);
+  $lighter: rgb(204,255,127);
+  $lightest: rgb(249,255,240);
+
+  border: 1px solid darken(#acb2b8, 10%);
+  border-radius: 4px;
+  padding: 15px 18px;
+  background-color: #acb2b8;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+
+  .bar {
+    background-color: $lightest;
+    box-sizing: border-box;
+    border-radius: 4px;
+    height: 20px;
+    -webkit-box-shadow: 0px 0px 15px 6px $base-color;
+    -moz-box-shadow: 0px 0px 15px 6px $base-color;
+    box-shadow: 0px 0px 15px 6px $base-color;
+    text-align: center;
+  }
+
+  .bar-label {
+    color: black;
+    font-weight: 700;
+    line-height: 20px;
+  }
+}

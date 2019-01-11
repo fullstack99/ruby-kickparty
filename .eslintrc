@@ -1,0 +1,27 @@
+{
+  extends: ["standard"],
+  env: {
+    browser: true,
+    es6: true,
+    node: true
+  },
+  parserOptions: {
+    ecmaVersion: 7,
+    ecmaFeatures: {
+      jsx: true
+    },
+    sourceType: "module"
+  },
+  plugins: [],
+  globals: {
+    "it": true,
+    "describe": true,
+    "ErrorService": true,
+    "Utils": true,
+    "$": true,
+    "Api": true,
+  },
+  rules: {
+    "spaced-comment": 0
+  }
+}

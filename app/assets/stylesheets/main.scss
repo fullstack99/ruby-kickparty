@@ -1,0 +1,21 @@
+@import 'utils';
+@import 'template';
+@import 'base';
+@import 'event-form';
+@import 'form-components';
+@import 'payment';
+@import 'resources';
+@import 'progress-bar';
+@import 'counter';
+@import 'event-details';
+@import 'posts';
+@import 'event-banner';
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}

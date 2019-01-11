@@ -1,0 +1,21 @@
+<h1 id="events-near-you">Events Near You!</h1>
+<span class="events-line"></span>
+
+<% @events.each_with_index do |e,i| %>
+<div class='col-sm-4 margin30 events-list-item'>
+    <div>
+        <a href='/events/<%=e['slug']%>'>
+            <div class='item-img-wrap services-box wow animated fadeIn' data-wow-duration='1000ms' data-wow-delay='500ms' style='visibility: visible; animation-duration: 1000ms; animation-delay: 500ms; animation-name: fadeIn;'>
+                <img src='<%=e['headerImg']%>' class='img-responsive img-rounded' alt='<%=e['name']%>'>
+                <div class='item-img-overlay'>
+                    <span></span>
+                </div>
+            </div>
+        </a>
+        <div class='news-desc'>
+            <h4><a href='/events/<%=e['slug']%>'><%=e['name']%></a></h4>
+            <span><%= truncate(strip_tags(e['description']), length: 40) %></span>
+        </div>
+    </div>
+</div>
+<% end %>

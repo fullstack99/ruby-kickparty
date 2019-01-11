@@ -1,0 +1,26 @@
+<div class="event-banner" style="background-image: url('<%=@event['headerImg']%>'); background-size: cover; background-position: center; text-align: center; height: 300px;">
+  <div style="background-color: rgba(0,0,0,.4);height: 100%;">
+    <h1 class="header-text">
+      <%=@event['name']%>
+    </h1>
+
+    <div style="margin-bottom: 10px;">
+      <img class="profile-image" src="<%=@event['user']['profileImg']%>" style="width: 100px; height: 100px;"/>
+    </div>
+    <div class="banner-meta" style="color: white; font-size: 24px;">
+      <small>Started by <%=@event['user']['firstName']%> <%=@event['user']['lastName']%></small><br>
+      <%= Date.parse(@event["start"]).strftime("%a, %b %d, %Y") %><br>
+      <%= Time.parse(@event["start"]).strftime("%I:%M %p") %>
+    </div>
+  </div>
+</div>
+<div class="build-bar">
+  <div class="wide">
+    <div class="build-button-container edit-event">
+      <div class="build-angle-left"></div>
+      <div class="build-button">Event Summary</div>
+      <div class="build-angle-right"></div>
+    </div>
+  </div>
+  <div class="edit-event-button empty"></div>
+</div>

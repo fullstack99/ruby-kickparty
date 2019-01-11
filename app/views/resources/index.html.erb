@@ -1,0 +1,115 @@
+<main class="container event-form resources-form">
+  <script>
+    var slug = '<%= @id %>'
+    var tierId = <%= @tierId %>
+    var minAttendeeCount = <%= @minAttendeeCount %>
+  </script>
+  <h1>Add Resources</h1>
+  <form action="post" id="resource-form">
+    <div class="form-group">
+      <h3 class="main-label">
+        TOTAL COST
+        <span id="cost-total">
+          <% if @tier["tierTotalCost"].to_f > 0 %>
+            <%= number_to_currency(@tier["tierTotalCost"]) %>
+          <% else %>
+            $0
+          <% end %>
+        </span>
+         / COST PER PERSON
+         <span id="cost-pp">
+           <% if @tier["baseCostPerAttendee"].to_f > 0 %>
+             <%= number_to_currency(@tier["baseCostPerAttendee"]) %>
+           <% else %>
+             $0
+           <% end %>
+         </span>
+      </h3>
+      <label for="">You can set a base cost for the event</label>
+      <input type="number" class="form-control" id="cost-base" value="<%= @tier["baseCost"]%>">
+    </div>
+
+    <h2>How would you like to calculate your cost per attendee?</h2>
+
+    <div class="form-group">
+      <div class="radio">
+        <label>
+          <%= radio_button_tag 'optionsRadios', '1', (@tier["calculationMethod"] == 1), class: "price-method" %>
+          Auto calculate as you add resources
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <%= radio_button_tag 'optionsRadios', '2', (@tier["calculationMethod"] == 2), class: "price-method" %>
+          Set a flat price per person
+        </label>
+      </div>
+      <%= text_field_tag 'price', @tier["baseCostPerAttendee"], placeholder: "How much per person?", id: "flat-price", class: "form-control hide" %>
+    </div>
+
+    <h2>Select resources to include</h2>
+
+      <% @resource_types.each do |rt| %>
+      <div class="form-group resource-section event-resources" data-type="<%= rt[:id] %>">
+        <h3 class="main-label">
+          <button class="content-toggle" type="button">
+            <i class="fa fa-plus-square"></i>
+          </button>
+          <%= rt[:name] %>
+          <span class='total'></span>
+        </h3>
+        <div class="resource-content hidden">
+          <h4>Your <%= rt[:name] %>s</h4>
+
+          <div class="added-resources">
+            <% if rt[:resource].present? %>
+              <% rt[:resource].each do |r| %>
+                <div class="row" data-resourceid="<%= r["resourceId"] %>" data-tierResourceId="<%= r["tierResourceId"] %>">
+                  <div class="col-md-1">
+                    <div class="resource-image"><%= r["name"][0] %><%= r["name"][1] %></div>
+                  </div>
+                  <div class="col-md-10">
+                    <h5><span class='name'><%= r["name"] %></span> <a class="remove" data-i="<%= r[:resourceTypeId] %>">Remove</a></h5>
+                    <p class="description"><%= r["description"] %></p>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="price"><%= number_to_currency(r["price"]) %></div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <hr>
+
+          <h4>Add New <%= rt[:name] %></h4>
+          <div class="row add-resource">
+            <div class="col-md-2">
+              <input class="form-control resource-name" type="text" placeholder="Name">
+            </div>
+            <div class="col-md-7">
+              <input class="form-control resource-description" type="text" name="description" placeholder="Description">
+            </div>
+            <div class="col-md-2">
+              <input class="form-control resource-cost" type="text" name="price" placeholder="Cost ($)">
+            </div>
+            <div class="col-md-1">
+              <input type="hidden" class="resource-private" name="private" value="true">
+              <button class="btn btn-theme-bg btn-add" type="button">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-group errors" id="error-reporter">
+      <h3>Form Errors<h3>
+      <div id="errors"></div>
+    </div>
+
+    <div class="form-group">
+      <button class="btn btn-theme-dark" type="submit">Save</button>
+      <button class="btn btn-default resource-cancel" type="reset">Cancel</button>
+    </div>
+  </form>
+</main>

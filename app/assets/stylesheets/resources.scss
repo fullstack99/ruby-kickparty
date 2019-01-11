@@ -1,0 +1,89 @@
+.resources-form {
+  h2 {
+    background-color: transparent;
+    color: #acb2b8;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  h3.main-label {
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.5em
+  }
+
+  h4, h5, p {
+    margin-bottom: 0;
+  }
+
+  label {
+    color: #777;
+    font-weight: 700;
+  }
+
+  input.form-control {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    box-shadow: 0 1px 5px #ccc;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+  }
+
+  .add-resource {
+    padding-top: 10px;
+  }
+
+  .resource-content {
+    border: 1px solid #cccccc;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    height: auto;
+
+    &.hidden {
+      padding: 0;
+      height: 0;
+    }
+  }
+
+  .resource-image {
+    background-color: #d400ff;
+    border-radius: 25px;
+    color: white;
+    font-weight: 700;
+    height: 50px;
+    line-height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 50px;
+  }
+
+  .price {
+    font-weight: 700;
+  }
+
+  .added-resources > .row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .content-toggle {
+    color: white;
+    background-color: rgba(255,255,255,0);
+    margin: 0;
+    padding: 0;
+    float: right;
+    border: none;
+    font-size: 2rem;
+
+    i {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

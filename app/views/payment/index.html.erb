@@ -1,0 +1,57 @@
+<main>
+  <header>
+    <h1><i class='fa fa-lock'></i> Payment Method</h1>
+    <p>
+      Your card will not be charged until the event 'kicks', or reaches the goal set out by the hosts.
+    </p>
+  </header>
+
+  <!-- TODO: remove unused controller and action. Default form action prevented with JS-->
+  <%= form_tag({controller: 'payment', action: 'create'}, method: 'post',
+    novalidate: 'novalidate', html: {autocomplete: 'on'}, id: 'payment-form') do %>
+
+    <div class='form-group'>
+      <!-- 2nd &nbsp is needed to prevent span from going to the next line -->
+      <label for='cc-number'>Card Number <span class='cc-brand'></span>&nbsp</label>
+      <input id='cc-number' type='tel' class='form-control'
+        autocomplete='cc-number' placeholder='•••• •••• •••• ••••' required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='cc-cvc'>CVV2/CVC2 <span>3/4 Digits on Back</span></label>
+      <input id='cc-cvc' type='tel' class='form-control' autocomplete='off' placeholder='•••' required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='cc-exp'>Expiration <span>mm/yy</span></label>
+      <input id='cc-exp' type='tel' class='form-control'
+        autocomplete='cc-exp' placeholder='•• / ••' required>
+    </div>
+
+    <div class='form-group'>
+      <label for='name'>Name on Card</label>
+      <input id='name' type='text' class='form-control' placeholder='Full Name on Card' required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='address'>Billing Address</label>
+      <input id='address' type='text' class='form-control' placeholder='Billing Address' required/>
+    </div>
+
+    <div class='form-group'>
+      <label for='zip-code'>Zip Code</label>
+      <input id='zip-code' type='tel' class='form-control' placeholder='Zip' maxlength='5' required/>
+    </div>
+
+    <div class='checkbox'>
+      <label><input id='default-payment' type='checkbox'>Make this my default payment method</label>
+    </div>
+
+    <div class='validation'></div>
+
+    <button id='payment-submit-btn' type='submit' class='btn btn-primary'>
+      Save payment method
+    </button>
+
+  <% end %> <!-- form_tag -->
+</main>

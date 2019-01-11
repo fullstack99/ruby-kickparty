@@ -1,0 +1,103 @@
+.event-form {
+  margin-top: 24px;
+
+  .main-label {
+    color: white;
+    display: block;
+    background-color: grey;
+    padding: 10px;
+    margin-bottom: 0;
+  }
+
+  .optional {
+    color: orange;
+    font-weight: 700;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-control {
+    font-size: 16px;
+    padding: 10px 12px;
+    height: 40px;
+  }
+
+  textarea.form-control {
+    height: auto;
+  }
+
+  // Map Styles
+  #map {
+    height: 400px;
+  }
+
+  .controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  #pac-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+  }
+
+  #pac-input:focus {
+    border-color: #4d90fe;
+  }
+
+  .pac-container {
+    font-family: Roboto;
+  }
+
+  #type-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+  }
+
+  #type-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+  }
+
+  #target {
+    width: 345px;
+  }
+}
+
+.error {
+  border: 1px solid rgb(139,0,0);
+  background: rgba(139,0,0,.1);
+}
+
+#error-reporter {
+  display: none;
+  border: 1px solid rgb(139,0,0);
+  background: rgba(139,0,0,.1);
+  color: rgb(139,0,0);
+  padding: 10px 12px;
+
+  h3 {
+    color: rgb(139,0,0);
+  }
+
+  #errors ul {
+    color: rgb(139,0,0);
+    font-size: 16px;
+  }
+}

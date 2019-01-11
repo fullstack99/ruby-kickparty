@@ -1,0 +1,18 @@
+<%= render "shared/head" %>
+<%= render "shared/nav" %>
+
+<% flash.each do |key, value| %>
+  <%= content_tag :div, value.html_safe, class: "flash #{key}" %>
+<% end %>
+
+<%= render "events/header" if @page == :event %>
+<%= render "shared/slider" if @page == :home %>
+
+<section id="main-content">
+  <div class="container">
+    <%= yield %>
+  </div>
+  <div class="divide60 black-divider"></div>
+</section>
+
+<%= render "shared/footer" %>
